@@ -9,7 +9,7 @@ function ManagePostsPage() {
   const navigate = useNavigate();
 
   // ⚙️ API URL
-  const baseURL = "http://103.200.20.149:8050/api/Posts";
+  const baseURL = "https://peprojectbackend.onrender.com/api/Posts";
 
   // 🧠 Hàm load posts
   const fetchPosts = async () => {

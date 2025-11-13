@@ -6,7 +6,7 @@ function UpdatePostPage() {
   const navigate = useNavigate();
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(false);
-  const baseURL = "https://localhost:7035/api/Posts";
+  const baseURL = "https://peprojectbackend.onrender.com/api/Posts";
 
   useEffect(() => {
     const fetchPost = async () => {

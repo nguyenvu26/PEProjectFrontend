@@ -8,7 +8,7 @@ function CreatePostPage() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const baseURL = "http://103.200.20.149:8050/api/Posts";
+  const baseURL = "https://peprojectbackend.onrender.com/api/Posts";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
