@@ -6,7 +6,7 @@ function UpdatePostPage() {
   const navigate = useNavigate();
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(false);
-  const baseURL = "https://peprojectbackend.onrender.com/api/Posts";
+  const baseURL = "https://localhost:7035/api/Posts";
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -14,7 +14,13 @@ function UpdatePostPage() {
         const res = await fetch(`${baseURL}/${id}`);
         if (!res.ok) throw new Error("Post not found");
         const data = await res.json();
-        setPost(data);
+
+        // map API fields into FE editable fields
+        setPost({
+          ...data,
+          name: data.title,
+          description: data.genre,
+        });
       } catch (err) {
         console.error(err);
       }
@@ -27,9 +33,14 @@ function UpdatePostPage() {
     try {
       setLoading(true);
       const formData = new FormData();
+
+      // PUT needs: name, description, image(binary)
       formData.append("name", post.name);
       formData.append("description", post.description);
-      if (post.newImage) formData.append("image", post.newImage);
+
+      if (post.newImage) {
+        formData.append("image", post.newImage); // send file
+      }
 
       const res = await fetch(`${baseURL}/${id}`, {
         method: "PUT",
@@ -38,7 +49,7 @@ function UpdatePostPage() {
 
       if (!res.ok) throw new Error("Failed to update post");
       alert("✅ Post updated successfully!");
-      navigate("/"); // ⬅ tự động quay lại
+      navigate("/");
     } catch (err) {
       console.error(err);
       alert("❌ Update failed");
@@ -64,25 +75,40 @@ function UpdatePostPage() {
         </div>
 
         <form onSubmit={handleUpdate} className="flex flex-col gap-4">
+
+          {/* HIỂN THỊ - nhưng vẫn cho sửa */}
           <input
             type="text"
             value={post.name}
             onChange={(e) => setPost({ ...post, name: e.target.value })}
             className="p-3 rounded-lg bg-gray-700 outline-none"
           />
+
           <textarea
             value={post.description}
             onChange={(e) => setPost({ ...post, description: e.target.value })}
             rows="4"
             className="p-3 rounded-lg bg-gray-700 outline-none"
           />
+
+          {/* Current image */}
+          <p className="text-gray-300">Current Image:</p>
+          <img
+            src={post.posterImage}
+            alt="poster"
+            className="w-40 rounded mb-4"
+          />
+
+          {/* NEW image upload */}
           <input
             type="file"
             className="p-2 bg-gray-700 rounded-lg"
             onChange={(e) =>
               setPost({ ...post, newImage: e.target.files[0] })
             }
+            accept="image/*"
           />
+
           <button
             type="submit"
             disabled={loading}
@@ -90,6 +116,7 @@ function UpdatePostPage() {
           >
             {loading ? "Updating..." : "Update Post"}
           </button>
+
         </form>
       </div>
     </div>

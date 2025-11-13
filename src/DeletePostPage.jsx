@@ -5,7 +5,7 @@ function DeletePostPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [post, setPost] = useState(null);
-  const baseURL = "https://peprojectbackend.onrender.com/api/Posts";
+  const baseURL = "https://localhost:7035/api/Posts";
 
   useEffect(() => {
     const fetchPost = async () => {

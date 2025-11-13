@@ -9,7 +9,7 @@ function ManagePostsPage() {
   const navigate = useNavigate();
 
   // ⚙️ API URL
-  const baseURL = "https://peprojectbackend.onrender.com/api/Posts";
+  const baseURL = "https://localhost:7035/api/Posts";
 
   // 🧠 Hàm load posts
   const fetchPosts = async () => {
@@ -47,7 +47,7 @@ function ManagePostsPage() {
     <div className="min-h-screen bg-gray-900 text-gray-100">
       {/* HEADER */}
       <header className="flex justify-between items-center px-8 py-4 bg-gray-800 shadow">
-        <h1 className="text-lg font-semibold">ManagePosts</h1>
+        <h1 className="text-lg font-semibold">Movie Manager</h1>
         <button
           onClick={handleCreate}
           className="bg-indigo-600 hover:bg-indigo-500 px-4 py-2 rounded-lg text-white font-medium"
@@ -77,7 +77,7 @@ function ManagePostsPage() {
         <div className="flex justify-between items-center mb-6 gap-4">
           <input
             type="text"
-            placeholder="Search posts by name..."
+            placeholder="Search movies by title..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="bg-gray-800 px-4 py-2 rounded-lg w-1/2 outline-none"
@@ -94,36 +94,40 @@ function ManagePostsPage() {
         {loading ? (
           <p className="text-center text-gray-400">Loading posts...</p>
         ) : posts.length === 0 ? (
-          <p className="text-center text-gray-400">No posts found.</p>
+          <p className="text-center text-gray-400">No movies found.</p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {posts.map((post) => (
               <div
-                key={post.id || post._id}
+                key={post.id}
                 className="bg-gray-800 rounded-lg overflow-hidden shadow-lg flex flex-col"
               >
                 <img
                   src={
-                    post.imageUrl ||
+                    post.posterImage ||
                     "https://cdn-icons-png.flaticon.com/512/847/847969.png"
                   }
-                  alt={post.name}
+                  alt={post.title}
                   className="w-full h-40 object-cover"
                 />
                 <div className="p-5 flex-1 flex flex-col">
-                  <h3 className="font-semibold text-lg mb-2">{post.name}</h3>
+                  <h3 className="font-semibold text-lg mb-2">
+                    {post.title}
+                  </h3>
+
                   <p className="text-gray-400 text-sm mb-4 flex-1">
-                    {post.description}
+                    {post.genre}
                   </p>
+
                   <div className="flex justify-between mt-auto">
                     <button
-                      onClick={() => handleEdit(post.id || post._id)}
+                      onClick={() => handleEdit(post.id)}
                       className="bg-gray-700 hover:bg-gray-600 text-sm px-4 py-2 rounded-lg"
                     >
                       Edit
                     </button>
                     <button
-                      onClick={() => handleDelete(post.id || post._id)}
+                      onClick={() => handleDelete(post.id)}
                       className="bg-red-600 hover:bg-red-500 text-sm px-4 py-2 rounded-lg"
                     >
                       Delete
